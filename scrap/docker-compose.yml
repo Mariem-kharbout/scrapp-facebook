@@ -1,0 +1,24 @@
+version: "3"
+services:
+   mongodb:
+      image: mongo:latest
+      restart: always
+      container_name: mongodb
+      environment:
+      # provide your credentials here
+         - MONGO_INITDB_ROOT_USERNAME=mariem
+         - MONGO_INITDB_ROOT_PASSWORD=mk122597
+      ports:
+         - "27017:27017"
+      volumes:
+         - mongodbdata:/data/db
+  # no --auth is needed here as presence of username and password add this option automatically
+      command: mongod 
+   scrap:
+      build: .  # path is relative to docker-compose.yml localtion
+      ports:
+        - "8000:8000"  # host:container 
+      depends_on:
+        - mongodb
+volumes:
+   mongodbdata:
